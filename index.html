@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ダミーファイル生成実験</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f2f5;
+            margin: 0;
+        }
+        .card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>大容量ファイル生成テスト</h2>
+        <p>下のボタンを押すと、ブラウザ上で100MBのダミーファイルを作ってダウンロードします。</p>
+        <button id="downloadBtn">100MBのファイルをダウンロード</button>
+    </div>
+
+    <script>
+        document.getElementById('downloadBtn').addEventListener('click', () => {
+            alert('ファイルの生成を開始します。数十秒かかる場合があります...');
+
+            // 100MB（102,400,000バイト）の空のデータ（ゼロ）を生成
+            const sizeInBytes = 100 * 1024 * 1024; 
+            const buffer = new Uint8Array(sizeInBytes);
+
+            // JavaScriptのBlob機能を使って、メモリ上に仮想ファイルを作成
+            const blob = new Blob([buffer], { type: 'application/octet-stream' });
+            
+            // ダウンロード用の見えないリンクを作成してクリックさせる
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'dummy_100mb.dat'; // ダウンロードされるファイル名
+            document.body.appendChild(a);
+            a.click();
+
+            // メモリを解放
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    </script>
+
+</body>
+</html>

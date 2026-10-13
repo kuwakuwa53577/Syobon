@@ -36,7 +36,7 @@ document.getElementById('createZipBtn').addEventListener('click', async () => {
     }
 
     // 2. ループ処理を使って、自動的に連番のテキストファイルを生成して追加
-    const totalFiles = 5000; 
+    const totalFiles = 1; 
     for (let i = 1; i <= totalFiles; i++) {
         const fileName = `file${i}.txt`; 
         const fileContent = `高速化テスト用ファイル ${i}`;

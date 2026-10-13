@@ -4,8 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>複数ファイルZIPまとめツール</title>
-    <!-- 安全な外部ライブラリ JSZip を読み込みます -->
-    <script src="https://cloudflare.com"></script>
     <style>
         body {
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -77,7 +75,6 @@
     <h2>ZIPまとめツール</h2>
     <p>あなたが作ったZIPファイルを選択し、ボタンを押すと自動生成されたテキストファイルと一緒に新しいZIPにまとめます。</p>
     
-    <!-- 既存のZIPを選択するボタン -->
     <div class="file-input-area">
         <label for="userZipInput">組み込みたいZIPファイルを選択：</label>
         <input type="file" id="userZipInput" accept=".zip">
@@ -87,7 +84,9 @@
     <div id="status"></div>
 </div>
 
-<!-- 外部のJavaScriptファイルをここで読み込みます -->
+<!-- 【重要】JSZipライブラリを一番下で確実に先に読み込ませます -->
+<script src="https://cloudflare.com"></script>
+<!-- その後に自分のプログラムを読み込みます -->
 <script src="script.js"></script>
 </body>
 </html>

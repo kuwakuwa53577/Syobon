@@ -3,71 +3,369 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ダミーファイル生成実験</title>
+    <title>複数ファイルZIPまとめツール</title>
+    <!-- 安全な外部ライブラリ JSZip を読み込みます -->
+    <script src="https://cloudflare.com"></script>
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f6;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            background-color: #f0f2f5;
             margin: 0;
         }
-        .card {
-            background: white;
+        .container {
+            background-color: white;
             padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
             text-align: center;
+            max-width: 400px;
+            width: 100%;
         }
-        button {
-            background-color: #007bff;
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        p {
+            color: #666;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+        .btn {
+            background-color: #28a745;
             color: white;
             border: none;
-            padding: 12px 24px;
+            padding: 12px 20px;
             font-size: 16px;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
+            width: 100%;
+            font-weight: bold;
             transition: background 0.2s;
         }
-        button:hover {
-            background-color: #0056b3;
+        .btn:hover {
+            background-color: #218838;
+        }
+        #status {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #0056b3;
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h2>大容量ファイル生成テスト</h2>
-        <p>下のボタンを押すと、ブラウザ上で100MBのダミーファイルを作ってダウンロードします。</p>
-        <button id="downloadBtn">100MBのファイルをダウンロード</button>
-    </div>
+<div class="container">
+    <h2>ZIPまとめツール</h2>
+    <p>ボタンを押すと、5つのテキストファイルを自動生成し、1つのZIPファイルにまとめてダウンロードします。</p>
+    <button class="btn" id="createZipBtn">ZIPファイルを作成してダウンロード</button>
+    <div id="status"></div>
+</div>
 
-    <script>
-        document.getElementById('downloadBtn').addEventListener('click', () => {
-            alert('ファイルの生成を開始します。数十秒かかる場合があります...');
+<script>
+    document.getElementById('createZipBtn').addEventListener('click', async () => {
+        const statusDiv = document.getElementById('status');
+        statusDiv.textContent = 'ZIPファイルを作成中...';
 
-            // 100MB（102,400,000バイト）の空のデータ（ゼロ）を生成
-            const sizeInBytes = 100 * 1024 * 1024; 
-            const buffer = new Uint8Array(sizeInBytes);
+        // 1. JSZipのインスタンス（まとめる箱）を作る
+        const zip = new JSZip();
 
-            // JavaScriptのBlob機能を使って、メモリ上に仮想ファイルを作成
-            const blob = new Blob([buffer], { type: 'application/octet-stream' });
-            
-            // ダウンロード用の見えないリンクを作成してクリックさせる
-            const url = URL.createObjectURL(blob);
+        // 2. 箱の中に複数のファイルを追加していく
+        // file(ファイル名, 中身のテキスト)
+        zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+                zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+                zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+                zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+                zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+                zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+                zip.file("file1.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file2.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file3.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file4.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file5.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file6.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file7.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file8.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file9.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file10.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file11.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file12.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file13.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file14.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file15.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file16.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file17.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file18.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file19.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file21.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file22.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file23.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file24.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file25.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file26.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file27.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file28.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file29.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file30.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file31.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file32.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file33.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file34.txt", "これは4つ目のファイルの中身です。");
+        zip.file("file35.txt", "これは5つ目のファイルの中身です。これでラストです！");
+        zip.file("file36.txt", "これは1つ目のファイルの中身です。\n綺麗にまとまっています。");
+        zip.file("file37.txt", "これは2つ目のファイルの中身です。JavaScriptで自動生成しました。");
+        zip.file("file38.txt", "これは3つ目のファイルの中身です。プログラミングの実験中。");
+        zip.file("file39.txt", "これは4つ目のファイルの中身です。");
+        
+        try {
+            // 3. 複数のファイルを1つのZIPデータとして圧縮（生成）する
+            // type: "blob" はブラウザで扱えるデータ形式にする指定です
+            const content = await zip.generateAsync({ type: "blob" });
+
+            // 4. 生成したZIPデータをブラウザからダウンロードさせる
+            const url = URL.createObjectURL(content);
             const a = document.createElement('a');
             a.href = url;
-            a.download = 'dummy_100mb.dat'; // ダウンロードされるファイル名
+            a.download = "text_files_archive.zip"; // ダウンロードされるときの名前
             document.body.appendChild(a);
             a.click();
 
-            // メモリを解放
+            // 後片付け（メモリの解放）
             document.body.removeChild(a);
             URL.revokeObjectURL(url);
-        });
-    </script>
+
+            statusDiv.textContent = 'ダウンロードが完了しました！';
+        } catch (error) {
+            console.error(error);
+            statusDiv.textContent = 'エラーが発生しました。';
+        }
+    });
+</script>
 
 </body>
 </html>
